@@ -1,7 +1,9 @@
 import 'package:finance/consts.dart';
 import 'package:flutter/material.dart';
 
+import '../utils/get_month_name.dart';
 import '../widgets/rounded_card.dart';
+import '../utils/transactions.dart';
 
 class FinancePage extends StatefulWidget {
   const FinancePage({Key? key}) : super(key: key);
@@ -11,6 +13,7 @@ class FinancePage extends StatefulWidget {
 }
 
 class FinancePageState extends State<FinancePage> {
+  List<Transaction> transactions = [];
 
   String _formatValue(double value) {
     final intValue = value.toInt();
@@ -43,8 +46,8 @@ class FinancePageState extends State<FinancePage> {
           children: [
             const SizedBox(height: 10),
             Container (
-              width: MediaQuery.of(context).size.width * 0.8,
-              height: 170,
+              width: MediaQuery.of(context).size.width * 0.85,
+              height: 224,
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
                   begin: Alignment.topCenter,
@@ -53,7 +56,7 @@ class FinancePageState extends State<FinancePage> {
                   lightPink,
                   dartPink,
                 ]),
-                borderRadius: BorderRadius.circular(10.0),
+                borderRadius: BorderRadius.circular(4.0),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.3),
@@ -73,7 +76,7 @@ class FinancePageState extends State<FinancePage> {
                     'Saldo',
                     style: TextStyle(
                       fontSize: 18,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w400,
                       color:  Colors.white,
                     ),
                   ),
@@ -155,7 +158,46 @@ class FinancePageState extends State<FinancePage> {
                   ),
                 ),
               ],
-            )
+            ),
+            const SizedBox(height: 20),
+            Expanded(
+            child: ListView.builder(
+              itemCount: transactions.length,
+              itemBuilder: (ctx, index) {
+                final transaction = transactions[index];
+                return Card(
+                  elevation: 2,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        left: BorderSide(
+                          color: transaction.value < 0 ? Colors.red : Colors.greenAccent,
+                          width: 4,
+                        ),
+                      ),
+                    ),
+                    child: ListTile(
+                      leading: Icon(transaction.icon),
+                      title: Text(transaction.description),
+                      subtitle: Text(
+                        '${transaction.date.day} ${getMonthName(transaction.date.month)} ${transaction.date.year}',
+                      ),
+                      trailing: Text(
+                        'R\$ ${_formatValue(transaction.value)}',
+                        style: TextStyle(
+                          color: transaction.value < 0 ? Colors.red : Colors.greenAccent,
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
           ],
         ),
       ),
