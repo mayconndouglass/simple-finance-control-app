@@ -1,6 +1,8 @@
 import 'package:finance/consts.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/rounded_card.dart';
+
 class FinancePage extends StatefulWidget {
   const FinancePage({Key? key}) : super(key: key);
 
@@ -129,6 +131,30 @@ class FinancePageState extends State<FinancePage> {
                   )
                 ],
               ),
+            ),
+            const SizedBox(height: 20),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                RoundedCart(
+                  color: Colors.greenAccent,
+                  text: 'Depósito',
+                  icon: Icon(
+                    Icons.arrow_upward,
+                    size: 20,
+                    color: Colors.white,
+                  ),
+                ),
+                RoundedCart(
+                  color: Colors.red,
+                  text: 'Saque',
+                  icon: Icon(
+                    Icons.arrow_downward,
+                    size: 20,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
             )
           ],
         ),
@@ -136,3 +162,4 @@ class FinancePageState extends State<FinancePage> {
     );
   }
 }
+
