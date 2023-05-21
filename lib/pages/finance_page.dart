@@ -9,6 +9,21 @@ class FinancePage extends StatefulWidget {
 }
 
 class FinancePageState extends State<FinancePage> {
+
+  String _formatValue(double value) {
+    final intValue = value.toInt();
+    final doubleValue = value - intValue;
+
+    final formattedIntValue = intValue.toString().replaceAllMapped(
+      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+      (Match m) => '${m[1]}.',
+    );
+
+    final formattedDoubleValue = doubleValue.toStringAsFixed(2).split('.')[1];
+
+    return '$formattedIntValue,$formattedDoubleValue';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,16 +64,69 @@ class FinancePageState extends State<FinancePage> {
               margin: const EdgeInsets.symmetric(horizontal: 16),
               padding: const EdgeInsets.all(16),
               alignment: Alignment.center,
-              child: const Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                   Text('Saldo',
+                   const Text(
+                    'Saldo',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color:  Colors.white,
                     ),
                   ),
+                const SizedBox(height: 8),
+                Text('R\$ ${_formatValue(1.500)}',//TODO valor deve ser futuramente dinamico
+                  style: const TextStyle(
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                        const Text(
+                          'Depósitos:',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Text(
+                          'R\$ ${_formatValue(1.50)}',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Saques:',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Text(
+                            'R\$ ${_formatValue(0.0)}',//TODO Aqui é valor dinamico
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )
                 ],
               ),
             )
