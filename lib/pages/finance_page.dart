@@ -1,6 +1,8 @@
 import 'package:finance/consts.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
 
+import '../utils/generate_Random_Date.dart';
 import '../utils/get_month_name.dart';
 import '../widgets/rounded_card.dart';
 import '../utils/transactions.dart';
@@ -14,6 +16,10 @@ class FinancePage extends StatefulWidget {
 
 class FinancePageState extends State<FinancePage> {
   List<Transaction> transactions = [];
+  double accountBalance = 0.0;
+  double totalDeposits = 0.0;
+  double totalWithdrawals = 0.0;
+  final random = Random();
 
   String _formatValue(double value) {
     final intValue = value.toInt();
@@ -27,6 +33,21 @@ class FinancePageState extends State<FinancePage> {
     final formattedDoubleValue = doubleValue.toStringAsFixed(2).split('.')[1];
 
     return '$formattedIntValue,$formattedDoubleValue';
+  }
+
+  void deposit() {
+    final depositValue = random.nextDouble() * 999.99;
+    final transaction = Transaction(
+      description: 'Depósito',
+      icon: Icons.arrow_upward,
+      date: RandomDateGenerator.execute(),
+      value: depositValue,
+    );
+    setState(() {
+      transactions.add(transaction);
+      accountBalance += depositValue;
+      totalDeposits += depositValue;
+    });
   }
 
   @override
@@ -66,7 +87,7 @@ class FinancePageState extends State<FinancePage> {
                   ),
                 ],
               ),
-              margin: const EdgeInsets.symmetric(horizontal: 16),
+              margin: const EdgeInsets.symmetric(horizontal: 10),
               padding: const EdgeInsets.all(16),
               alignment: Alignment.center,
               child: Column(
@@ -136,22 +157,24 @@ class FinancePageState extends State<FinancePage> {
               ),
             ),
             const SizedBox(height: 20),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 RoundedCart(
-                  color: Colors.greenAccent,
+                  onPressed: deposit,
+                  color: greenLight,
                   text: 'Depósito',
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.arrow_upward,
                     size: 20,
                     color: Colors.white,
                   ),
                 ),
                 RoundedCart(
-                  color: Colors.red,
+                  onPressed: () {},
+                  color: red,
                   text: 'Saque',
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.arrow_downward,
                     size: 20,
                     color: Colors.white,
@@ -170,16 +193,16 @@ class FinancePageState extends State<FinancePage> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: Container(
-                    decoration: BoxDecoration(
+                  margin: const EdgeInsets.symmetric(horizontal: 38, vertical: 8),
+                  /*child: Container(
+                     decoration: BoxDecoration(
                       border: Border(
                         left: BorderSide(
-                          color: transaction.value < 0 ? Colors.red : Colors.greenAccent,
+                          color: transaction.value < 0 ? red : greenLight,
                           width: 4,
                         ),
                       ),
-                    ),
+                    ), */
                     child: ListTile(
                       leading: Icon(transaction.icon),
                       title: Text(transaction.description),
@@ -189,11 +212,11 @@ class FinancePageState extends State<FinancePage> {
                       trailing: Text(
                         'R\$ ${_formatValue(transaction.value)}',
                         style: TextStyle(
-                          color: transaction.value < 0 ? Colors.red : Colors.greenAccent,
+                          color: transaction.value < 0 ? red : greenLight,
                         ),
                       ),
                     ),
-                  ),
+                  /* ), */
                 );
               },
             ),
