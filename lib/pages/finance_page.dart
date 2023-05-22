@@ -43,12 +43,40 @@ class FinancePageState extends State<FinancePage> {
       date: RandomDateGenerator.execute(),
       value: depositValue,
     );
+
     setState(() {
       transactions.add(transaction);
       accountBalance += depositValue;
       totalDeposits += depositValue;
     });
   }
+
+  void withdraw() {
+  double withdrawValue = random.nextDouble() * accountBalance;
+
+  while (withdrawValue > accountBalance && accountBalance > 0.00) {
+    if (accountBalance == 0.01 || accountBalance == 0.00) {
+      break;
+    }
+
+    withdrawValue = random.nextDouble() * accountBalance;
+  }
+
+  if (withdrawValue >= 0.01 && withdrawValue <= 999.99) {
+    final transaction = Transaction(
+      description: 'Saque',
+      icon: Icons.arrow_downward,
+      date: RandomDateGenerator.execute(),
+      value: -withdrawValue,
+    );
+
+    setState(() {
+      transactions.add(transaction);
+      accountBalance -= withdrawValue;
+      totalWithdrawals -= withdrawValue;
+    });
+  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -171,7 +199,7 @@ class FinancePageState extends State<FinancePage> {
                   ),
                 ),
                 RoundedCart(
-                  onPressed: () {},
+                  onPressed: withdraw,
                   color: red,
                   text: 'Saque',
                   icon: const Icon(
