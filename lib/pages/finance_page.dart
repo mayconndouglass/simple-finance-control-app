@@ -130,7 +130,7 @@ class FinancePageState extends State<FinancePage> {
                     ),
                   ),
                 const SizedBox(height: 8),
-                Text('R\$ ${_formatValue(1.500)}',//TODO valor deve ser futuramente dinamico
+                Text('R\$ ${_formatValue(accountBalance)}',
                   style: const TextStyle(
                     fontSize: 36,
                     fontWeight: FontWeight.bold,
@@ -152,7 +152,7 @@ class FinancePageState extends State<FinancePage> {
                           ),
                         ),
                         Text(
-                          'R\$ ${_formatValue(1.50)}',
+                          'R\$ ${_formatValue(totalDeposits)}',
                           style: const TextStyle(
                             fontSize: 14,
                             color: Colors.white,
@@ -171,7 +171,7 @@ class FinancePageState extends State<FinancePage> {
                             ),
                           ),
                           Text(
-                            'R\$ ${_formatValue(0.0)}',//TODO Aqui é valor dinamico
+                            'R\$ ${_formatValue(totalWithdrawals)}',
                             style: const TextStyle(
                               fontSize: 14,
                               color: Colors.white,
@@ -190,7 +190,7 @@ class FinancePageState extends State<FinancePage> {
               children: [
                 RoundedCart(
                   onPressed: deposit,
-                  color: greenLight,
+                  color: lightGreen,
                   text: 'Depósito',
                   icon: const Icon(
                     Icons.arrow_upward,
@@ -219,18 +219,9 @@ class FinancePageState extends State<FinancePage> {
                 return Card(
                   elevation: 2,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(4),
                   ),
-                  margin: const EdgeInsets.symmetric(horizontal: 38, vertical: 8),
-                  /*child: Container(
-                     decoration: BoxDecoration(
-                      border: Border(
-                        left: BorderSide(
-                          color: transaction.value < 0 ? red : greenLight,
-                          width: 4,
-                        ),
-                      ),
-                    ), */
+                  margin: const EdgeInsets.symmetric(horizontal: 28, vertical: 8),
                     child: ListTile(
                       leading: Icon(transaction.icon),
                       title: Text(transaction.description),
@@ -240,7 +231,7 @@ class FinancePageState extends State<FinancePage> {
                       trailing: Text(
                         'R\$ ${_formatValue(transaction.value)}',
                         style: TextStyle(
-                          color: transaction.value < 0 ? red : greenLight,
+                          color: transaction.value < 0 ? red : dartGreen,
                         ),
                       ),
                     ),

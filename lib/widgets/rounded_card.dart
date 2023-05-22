@@ -17,7 +17,7 @@ class RoundedCart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onPressed, //TODO Valor dinamico
+      onTap: onPressed,
       child: Card(
         elevation: 4,
         child: Container(
