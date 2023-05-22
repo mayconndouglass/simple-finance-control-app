@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 
 import '../utils/generate_Random_Date.dart';
-import '../utils/get_month_name.dart';
+import '../utils/month_name_generator.dart';
 import '../widgets/rounded_card.dart';
 import '../utils/transactions.dart';
 
@@ -226,7 +226,7 @@ class FinancePageState extends State<FinancePage> {
                       leading: Icon(transaction.icon),
                       title: Text(transaction.description),
                       subtitle: Text(
-                        '${transaction.date.day} ${getMonthName(transaction.date.month)} ${transaction.date.year}',
+                        '${transaction.date.day} ${MonthNameGenerator.exeute(transaction.date.month)} ${transaction.date.year}',
                       ),
                       trailing: Text(
                         'R\$ ${_formatValue(transaction.value)}',
